@@ -88,5 +88,29 @@ class MainSpec extends AnyFlatSpec with Matchers {
 
     List.split(n,lst) shouldBe(List(1,2,3),List(4,5,6,7))
   }
+  "El take de 3 de la lista (1,2,3,4,5,6,7)" should "(1,2,3)" in {
+    val n = 3
+    val lst = List(1,2,3,4,5,6,7)
+
+    List.take(n, lst) shouldBe List(1,2,3)
+  }
+
+  "El init de (1,2,3,4,5,6)" should " es (1,2,3,4,5)" in {
+    val lst = List(1,2,3,4,5,6)
+
+    List.init(lst) shouldBe List(1,2,3,4,5)
+  }
+
+  "El reverso de List(1,2,3,4,5,6)" should "List(6,5,4,3,2,1)" in {
+    val lst = List(1,2,3,4,5,6)
+
+    List.reverse(lst) shouldBe List(6,5,4,3,2,1)
+  }
+
+  "El interspace de 1 con List(2,3,4,5,6)" should "List(2,1,3,1,4,1,5,1,6,1)" in {
+    val lst = List(2,3,4,5,6)
+
+    List.interspace(1, lst) shouldBe List(2,1,3,1,4,1,5,1,6,1)
+  }
 
 }

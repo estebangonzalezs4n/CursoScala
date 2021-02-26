@@ -141,18 +141,77 @@ object List {
     splitAux(n,lst,Nil)
   }*/
 
-  //Función que corta una lista en base a un entero, devuelve una tubla de listas con el resultado del corte
+
+
+  //Ejercicio (M3) 1, función que toma un entero y una lista y con base a ese entero, retorna una lista de tamaño
+  //del entero introducido
+  def take[A](n:Int, lst:List[A]): List[A] = {
+    @tailrec
+    def takep[A](n:Int, lst:List[A], tmp:List[A]): List[A] = (n,lst) match {
+      case (0,_) => tmp
+      case (n, Nil) => Nil
+      case (n, Const(h, t)) => if(n > List.length(lst)) lst
+      else takep(n-1, t, addEnd(h,tmp) )
+    }
+    takep(n, lst, Nil)
+  }
+
+  //Ejercicio (M3) 2, función que recibe una lista y retorna la misma lista menos su último elemento
+  def init[A](lst:List[A]): List[A] = {
+    @tailrec
+    def initp[A](lst:List[A], tmp:List[A], n:Int): List[A] = (n, lst) match {
+      case (1,_) => tmp
+      case (n, Const(h, t)) => initp(t, addEnd(h, tmp), n-1)
+    }
+    initp(lst, Nil, length(lst))
+  }
+
+  //Ejercicio (M3) 3Función que corta una lista en base a un entero, devuelve una tubla de listas con el resultado del corte
   def split[A](n:Int, lst:List[A]):(List[A], List[A]) = {
     @tailrec
     def splitp[A](n:Int, lst:List[A], tml:List[A]):(List[A], List[A]) = (n, lst) match {
-        //Se pasan los valores de la lista original recibida a la lista tml
-        case (0, _) => (tml, lst)
-        case (n, Const(h, t)) => splitp(n-1, t , addEnd(h,tml))
+      //Se pasan los valores de la lista original recibida a la lista tml
+      case (0, _) => (tml, lst)
+      case (n, Const(h, t)) => splitp(n-1, t , addEnd(h,tml))
     }
     splitp(n, lst, Nil)
   }
 
+  //Ejercicio (M3) 4, función que toma dos listas de diferentes tipos y retorna una lista de tuplas
+  //al juntar los valores de las listas ingresadas
+  /*def zip[A,B](lst:List[A], lst2:List[B]):List[(A,B)] = {
 
+  }*/
+
+
+  //Ejercicio (M3) 5, función que toma una lista que consiste de tuplas de diferentes tipos de dato y retorna
+  //dos listas, cada una compuesta por los elemenos del mismo tipo dato
+  /*def unZip[A,B](lst:List[(A,B)]):(List[A], List[B]) = {
+
+  }*/
+
+  //Ejercicio (M3) 6, función que toma una lista y retorna una versión invertida de la misma
+  def reverse[A](lst:List[A]):List[A] = {
+    @tailrec
+    def reversep[A](lst:List[A], tmp:List[A]):List[A] = lst match {
+      case Nil => tmp
+      case Const(h,t) => reversep(t, cons(h, tmp))
+    }
+
+    reversep(lst, Nil)
+  }
+
+  //Ejercicio (M3) 7, función que recibe un elemento y una lista y retorna una lista
+  // con los elementos entremezclados
+  def interspace[A](elem:A, lst:List[A]): List[A] = {
+    @tailrec
+    def interfacep[A](elem:A, lst:List[A], tmp:List[A]):List[A] = lst match {
+      case Nil => tmp
+      case Const(h, t) => interfacep(elem, t, cons(h, cons(elem, tmp)))
+    }
+
+    interfacep(elem, lst, Nil)
+  }
   //Respuesta ejercicio 1: x + y -> 9
   /*val x = List(4,5,6,7,8) match {
       case Const(x, Const(5, Const(7, _))) => x
