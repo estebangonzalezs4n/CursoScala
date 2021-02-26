@@ -76,4 +76,10 @@ class MainSpec extends AnyFlatSpec with Matchers {
     List.min(lst) shouldBe(0L)
   }
 
+  "El mínimo y máximo de (5.0,3.5,6.0,9.9,0.1,1.3)" should "son 0.1 y 9.9" in {
+    val lst = List(5.0,3.5,6.0,9.9,0.1,1.3)
+
+    List.minMax(lst) shouldBe((0.1, 9.9))
+  }
+
 }
