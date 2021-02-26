@@ -33,8 +33,8 @@ object List {
   }
 //Ejercicio 2, función que remueve el primer elemento de la lista que se le envía
   def tail[A](lst:List[A]): List[A] = lst match {
-    case Nil => Nil
-    case Const(h, t) => t
+    case Nil          => Nil
+    case Const(h, t)  => t
   }
 //Ejercicio 3, función que devuelve el primer elemento de una lista que se le envía
   def head[A](lst:List[A]): A = lst match {
@@ -47,8 +47,8 @@ object List {
   def and(lst:List[Boolean]): Boolean = {
     @tailrec
     def andp(lst:List[Boolean], acum:Boolean): Boolean = lst match {
-      case Nil => acum
-      case Const(h, t) => andp(t, h && acum)
+      case Nil          => acum
+      case Const(h, t)  => andp(t, h && acum)
     }
     andp(lst, acum = true)
   }
@@ -105,7 +105,54 @@ object List {
     (minVal, maxVal)
   }
 
-  //Ejercicio 9,
+  //Función para añadir un elemento nuevo al proncipio de la lista
+  def cons[A](newHead:A, existingTail:List[A]): List[A] = {
+    Const(newHead, existingTail)
+  }
+
+  //Función para añadir un elemento nuevo la final de una lista
+  //Recorre toda la lista haciendo una copia de la lista y añadiendo finalmente el elemento
+  def addEnd[A](elem:A, lst:List[A]):List[A] = lst match {
+    case Nil        => Const(elem,Nil)
+    case Const(h,t) => Const(h, addEnd(elem ,tail(lst)))
+  }
+
+  //Función que concatena 2 listas
+  def append[A](lst1:List[A], lst2:List[A]):List[A] = (lst1, lst2) match {
+    case (Nil, Nil) => Nil
+    case (l1, Nil)  => l1
+    case (Nil, l2)  => l2
+    case (Const(h, t), lst2)   => Const(h, append(t,lst2))
+  }
+
+  //Función que elimina n elementos iniciales de una lista, en este caso se podría mejorar haciendo el pattern matching
+  //con n en primer lugar
+  def drop[A](n:Int, lst:List[A]): List[A] = (lst,n) match {
+    case (Nil, n) => Nil
+    case (Const(h, t), 0) => Const(h,t)
+    case (Const(h, t),n) => drop(n-1, t)
+  }
+
+  /*def split[A](n:Int, lst:List[A], tmplst:List[A]):(List[A], List[A]) = {
+    def splitAux[A](n:Int, lst:List[A], acum:List[A]):(List[A], List[A]) = n match {
+      case 0 =>
+    }
+
+    splitAux(n,lst,Nil)
+  }*/
+
+  //Función que corta una lista en base a un entero, devuelve una tubla de listas con el resultado del corte
+  def split[A](n:Int, lst:List[A]):(List[A], List[A]) = {
+    @tailrec
+    def splitp[A](n:Int, lst:List[A], tml:List[A]):(List[A], List[A]) = (n, lst) match {
+        //Se pasan los valores de la lista original recibida a la lista tml
+        case (0, _) => (tml, lst)
+        case (n, Const(h, t)) => splitp(n-1, t , addEnd(h,tml))
+    }
+    splitp(n, lst, Nil)
+  }
+
+
   //Respuesta ejercicio 1: x + y -> 9
   /*val x = List(4,5,6,7,8) match {
       case Const(x, Const(5, Const(7, _))) => x

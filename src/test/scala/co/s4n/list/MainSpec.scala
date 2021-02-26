@@ -19,67 +19,74 @@ class MainSpec extends AnyFlatSpec with Matchers {
   "La longitud de una lista con 1,2,3,4" should  "4" in {
     val lst3 = List(1,2,3,4)
 
-    List.length(lst3) shouldEqual(4)
+    List.length(lst3) shouldEqual 4
   }
 
-  "La cola de (1,2,3,4,5)" should("es 2,3,4,5") in {
+  "La cola de (1,2,3,4,5)" should "es 2,3,4,5" in {
     val lst4 = List(1,2,3,4,5)
 
-    List.tail(lst4) shouldBe(List(2,3,4,5))
+    List.tail(lst4) shouldBe List(2,3,4,5)
   }
 
-  "La cabeza de (9,8,7,6)" should("es 9") in {
+  "La cabeza de (9,8,7,6)" should "es 9" in {
     val lst5 = List(9,8,7,6)
 
-    List.head(lst5) shouldBe(9)
+    List.head(lst5) shouldBe 9
   }
 
-  "El and de (true,true,false)" should("es false") in {
+  "El and de (true,true,false)" should "es false" in {
     val lst = List(true,true,false)
 
-    List.and(lst) shouldBe(false)
+    List.and(lst) shouldBe false
   }
 
-  "El and de (true,true,true)" should("es true") in {
+  "El and de (true,true,true)" should "es true" in {
     val lst = List(true,true,true)
 
-    List.and(lst) shouldBe(true)
+    List.and(lst) shouldBe true
   }
 
-  "El or de (false,false,false)" should("es false") in {
+  "El or de (false,false,false)" should "es false" in {
     val lst = List(false,false,false)
 
-    List.or(lst) shouldBe(false)
+    List.or(lst) shouldBe false
   }
 
-  "El or de (false,false,true)" should("es true") in {
+  "El or de (false,false,true)" should "es true" in {
     val lst = List(false,false,true)
 
-    List.or(lst) shouldBe(true)
+    List.or(lst) shouldBe true
   }
 
-  "El or de (true,true,true)" should("es true") in {
+  "El or de (true,true,true)" should "es true" in {
     val lst = List(true,true,true)
 
-    List.or(lst) shouldBe(true)
+    List.or(lst) shouldBe true
   }
 
-  "El maximo de (5,3,6,9,0,1)" should("es 9") in {
+  "El maximo de (5,3,6,9,0,1)" should "es 9" in {
     val lst = List(5,3,6,9,0,1)
 
-    List.max(lst) shouldBe(9)
+    List.max(lst) shouldBe 9
   }
 
-  "El mínimo de (5L,3L,6L,9L,0L,1L)" should("es 0L") in {
+  "El mínimo de (5L,3L,6L,9L,0L,1L)" should "es 0L" in {
     val lst = List(5L,3L,6L,9L,0L,1L)
 
-    List.min(lst) shouldBe(0L)
+    List.min(lst) shouldBe 0L
   }
 
   "El mínimo y máximo de (5.0,3.5,6.0,9.9,0.1,1.3)" should "son 0.1 y 9.9" in {
     val lst = List(5.0,3.5,6.0,9.9,0.1,1.3)
 
     List.minMax(lst) shouldBe((0.1, 9.9))
+  }
+
+  "El split de (1,2,3,4,5,6,7) con 3" should "es (1,2,3)(4,5,6,7,)" in {
+    val lst = List(1,2,3,4,5,6,7)
+    val n = 3
+
+    List.split(n,lst) shouldBe(List(1,2,3),List(4,5,6,7))
   }
 
 }

@@ -20,7 +20,7 @@ class NatSpec extends AnyFlatSpec with Matchers {
   "El entero a natural de 2" should "2" in {
     val natDos = 2
 
-    Nat.fromIntToNat(natDos) shouldBe (Suc(Suc(Cero)))
+    Nat.fromIntToNat(natDos) shouldBe Suc(Suc(Cero))
 
   }
 }
