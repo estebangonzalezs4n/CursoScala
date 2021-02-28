@@ -23,4 +23,19 @@ class NatSpec extends AnyFlatSpec with Matchers {
     Nat.fromIntToNat(natDos) shouldBe Suc(Suc(Cero))
 
   }
+
+  "La suma de los naturales Suc(Suc(Suc(Cero))),Suc(Suc(Cero))" should "es Suc(Suc(Suc(Suc(Suc(Cero)))))" in {
+    val nat1: Nat = Suc(Suc(Suc(Cero)))
+    val nat2: Nat = Suc(Suc(Cero))
+
+    Nat.addNat(nat1, nat2) shouldBe Suc(Suc(Suc(Suc(Suc(Cero)))))
+  }
+
+  "El producto de los naturales Suc(Suc(Suc(Cero))),Suc(Suc(Cero))" should "es Suc(Suc(Suc(Suc(Suc(Suc(Cero))))))" in {
+    val nat1: Nat = Suc(Suc(Suc(Cero)))
+    val nat2: Nat = Suc(Suc(Cero))
+
+    Nat.prodNat(nat1, nat2) shouldBe Suc(Suc(Suc(Suc(Suc(Suc(Cero))))))
+  }
+
 }
