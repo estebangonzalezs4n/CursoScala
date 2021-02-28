@@ -179,16 +179,29 @@ object List {
 
   //Ejercicio (M3) 4, función que toma dos listas de diferentes tipos y retorna una lista de tuplas
   //al juntar los valores de las listas ingresadas
-  /*def zip[A,B](lst:List[A], lst2:List[B]):List[(A,B)] = {
+    def zip[A,B](lst:List[A], lst2:List[B]):List[(A,B)] = {
 
-  }*/
+        @tailrec
+        def zipAux[A,B](lst:List[A], lst2:List[B], lmp:List[(A,B)]): List[(A,B)] = (lst, lst2) match {
+          case (Nil, Nil) => lmp
+          case (Const(h ,t) , Nil) => lmp
+          case (Nil, Const(h, t)) => lmp
+          case (Const(h1, t1), Const(h2, t2)) => zipAux(t1, t2, addEnd((h1, h2), lmp))
+        }
+    zipAux(lst, lst2, Nil)
 
+  }
 
   //Ejercicio (M3) 5, función que toma una lista que consiste de tuplas de diferentes tipos de dato y retorna
   //dos listas, cada una compuesta por los elemenos del mismo tipo dato
-  /*def unZip[A,B](lst:List[(A,B)]):(List[A], List[B]) = {
-
-  }*/
+  def unZip[A,B](lst:List[(A,B)]):(List[A], List[B]) = {
+    @tailrec
+    def unZipAux[A,B](lst:List[(A,B)], lmp1:List[A], lmp2:List[B]):(List[A], List[B]) = lst match {
+      case Nil => (lmp1, lmp2)
+      case Const(h , t) => unZipAux(t, addEnd(h._1, lmp1), addEnd(h._2, lmp2))
+    }
+    unZipAux(lst, Nil, Nil)
+  }
 
   //Ejercicio (M3) 6, función que toma una lista y retorna una versión invertida de la misma
   def reverse[A](lst:List[A]):List[A] = {
@@ -205,12 +218,19 @@ object List {
   // con los elementos entremezclados
   def interspace[A](elem:A, lst:List[A]): List[A] = {
     @tailrec
-    def interfacep[A](elem:A, lst:List[A], tmp:List[A]):List[A] = lst match {
+    def interspace[A](elem:A, lst:List[A], tmp:List[A]):List[A] = lst match {
       case Nil => tmp
-      case Const(h, t) => interfacep(elem, t, cons(h, cons(elem, tmp)))
+      case Const(h, t) => interspace(elem, t, addEnd(elem, addEnd(h, tmp)))
     }
+    interspace(elem, lst, Nil)
+  }
 
-    interfacep(elem, lst, Nil)
+  def concat[A](lst:List[List[A]]): List[A] = {
+
+    def concatp[A](lst1:List[A], lst2:List[A]): List[A] = {
+      append(lst1, lst2)
+    }
+    concatp(head(lst), head(tail(lst)))
   }
   //Respuesta ejercicio 1: x + y -> 9
   /*val x = List(4,5,6,7,8) match {

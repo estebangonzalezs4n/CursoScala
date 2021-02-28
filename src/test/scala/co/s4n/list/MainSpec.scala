@@ -112,5 +112,16 @@ class MainSpec extends AnyFlatSpec with Matchers {
 
     List.interspace(1, lst) shouldBe List(2,1,3,1,4,1,5,1,6,1)
   }
+  "El zip de List(1,2,3),List(true,false,true,true)" should "es List((1,true),(2,false),(3,true))" in {
+    List.zip(List(1,2,3),List(true,false,true,true)) shouldBe List((1,true),(2,false),(3,true))
+  }
+
+  "El unZip de List((1,\"a\"),(2,\"b\"),(3,\"b\")" should "es (List(1,2,3),List(\"a\",\"b\",\"c\"))" in {
+    List.unZip(List((1,"a"),(2,"b"),(3,"c"))) shouldBe (List(1,2,3),List("a","b","c"))
+  }
+
+  "El concat de List(List(1,2,3),List(4,5,6))" should " es List(1,2,3,4,5,6)" in {
+    List.concat(List(List(1,2,3),List(4,5,6))) shouldBe List(1,2,3,4,5,6)
+  }
 
 }
