@@ -17,6 +17,11 @@ object List {
     else Const(as.head, apply(as.tail: _*))
   }
 
+  def reduce(lst: List[Int], z:Int)(f: (Int, Int) => Int):Int = lst match {
+    case Nil => z
+    case Const(h, t) => f(h, reduce(t,z)(f))
+  }
+
   def suma(inst:List[Int]): Int = inst match {
     case Nil => 0
     case Const(h, t) => h + suma(t)
@@ -27,6 +32,7 @@ object List {
     case Const(h,t) => h * prod(t)
   }
 
+  //Función que retorna la longitud de una lista pasada como parametro
   def length[A](lst:List[A]):Int = lst match {
       case Nil => 0
       case Const(h,t) => 1 + length(t)
@@ -84,7 +90,8 @@ object List {
     }
     minp(lst,head(lst))
   }
-  //Ejercicio 8, función que recibe un arreglo de Doubles y retorna el min y max de todos los valores en forma de tupla
+  //Ejercicio 8, función que recibe un arreglo de Doubles y retorna el min y max de todos los
+  // valores en forma de tupla
   def minMax(lst:List[Double]):(Double, Double) = {
 
     @tailrec
@@ -103,6 +110,7 @@ object List {
     val maxVal:Double = max(lst,0)
     val minVal:Double = min(lst, List.head(lst))
     (minVal, maxVal)
+
   }
 
   //Función para añadir un elemento nuevo al proncipio de la lista
@@ -127,21 +135,29 @@ object List {
 
   //Función que elimina n elementos iniciales de una lista, en este caso se podría mejorar haciendo el pattern matching
   //con n en primer lugar
+  @tailrec
   def drop[A](n:Int, lst:List[A]): List[A] = (lst,n) match {
     case (Nil, n) => Nil
     case (Const(h, t), 0) => Const(h,t)
     case (Const(h, t),n) => drop(n-1, t)
   }
 
-  /*def split[A](n:Int, lst:List[A], tmplst:List[A]):(List[A], List[A]) = {
-    def splitAux[A](n:Int, lst:List[A], acum:List[A]):(List[A], List[A]) = n match {
-      case 0 =>
-    }
-
-    splitAux(n,lst,Nil)
+  /*@tailrec
+  def dropWhile[A](lst:List[A], f:A=>Boolean): List[A] = lst match {
+    case Nil                 => Nil
+    case Const(h, t) if f(h) => dropWhile(t, f)
+    case _                   => lst
+    // dropWhile(lst1, (y:Int) => y < 3) se eliminan todos los elementos menores que 3
   }*/
 
-
+  //Se currifica ya que permite un comportamiento más genérico al poder aplicar inferencia de tipo al segundo parámetro
+  @tailrec
+  def dropWhile[A](lst:List[A])(f:A=>Boolean): List[A] = lst match {
+    case Nil                 => Nil
+    case Const(h, t) if f(h) => dropWhile(t)(f)
+    case _                   => lst
+    // dropWhile(lst1, (y:Int) => y < 3) se eliminan todos los elementos menores que 3
+  }
 
   //Ejercicio (M3) 1, función que toma un entero y una lista y con base a ese entero, retorna una lista de tamaño
   //del entero introducido
@@ -225,13 +241,102 @@ object List {
     interspace(elem, lst, Nil)
   }
 
+  //
   def concat[A](lst:List[List[A]]): List[A] = {
-
     def concatp[A](lst1:List[A], lst2:List[A]): List[A] = {
       append(lst1, lst2)
     }
     concatp(head(lst), head(tail(lst)))
   }
+
+  /*def sumaR(lst:List[Int]):Int = reduce(lst, 0)((x,y) => x + y)
+
+def prodR(lst:List[Int]): Int = reduce(lst, 1)((x,y) => x * y)*/
+
+  def foldRight[A,B](as:List[A], z:B) (f: (A,B) => B):B = as match {
+    case Nil         => z
+    case Const(h,t ) => f(h, foldRight(t, z)(f))
+  }
+
+  @tailrec
+  def foldLeft[A,B](lst:List[A], z:B)(f: (B,A) => B):B = lst match {
+    //el truco es usar z como un acumulador
+    case Const(h, t) => foldLeft(t, f(z,h))(f)
+    case Nil         => z
+  }
+
+  def sumaF(lst:List[Int]):Int = foldRight(lst, 0)(_ + _) //optimizando
+  def prodF(lst:List[Int]): Int = foldRight(lst, 1)(_ * _ )
+
+  def sumaFL(lst:List[Int]): Int = foldLeft(lst, 0)(_ + _)
+  def prodFL(lst:List[Int]): Int = foldLeft(lst, 1)(_ * _)
+
+  def sumarUno(lst:List[Int]): List[Int] = foldRight(lst, Nil:List[Int])((elem, lst) => cons(elem +1, lst))
+
+  //Ejercicio 14, función que retorna la longitud de una lista haciendo uso de foldRight
+  def length2[A] (lst:List[A]):Int = foldRight(lst, 0)((x,y) => 1 + y)//usando el foldRight
+
+  //Ejercicio 15, implementación de la función and con foldRight
+  def andFR(lst:List[Boolean]): Boolean = foldRight(lst, true)(_ && _)
+
+  //Ejercicio 16, función que recibe una lista y un predicado p, retorna el prefijo más largo posible que
+  //satisface p
+  def takeWhile[A] (lst:List[A])(p:A => Boolean): List[A] = {
+        @tailrec
+        def takeWhileP[A](lst:List[A], acum:List[A])(p:A => Boolean):List[A]= lst match {
+          case Nil => acum
+          case Const(h, t) if p(h) => takeWhileP(t, addEnd(h, acum))(p)
+        }
+    takeWhileP(lst,Nil)(p)
+  }
+
+  //Ejercicio 17
+  def filter[A](lst:List[A])(p:A=>Boolean):List[A] = foldRight(lst, Nil:List[A])((h, t) => if (p(h)) Const(h, t) else t)
+
+  //Ejercicio 18
+  def unZipFR0[A,B] (lst:List[(A,B)]): (List[A], List[B]) = foldRight(lst,(Nil:List[A], Nil:List[B]))((h, t) => (Const(h._1,t._1), Const(h._2,t._2)))
+
+  //Ejercicio 19
+  def lengthFL[A](lst:List[A]):Int = foldLeft(lst, 0)((x, y) => 1 + x)
+
+  //Ejercicio 20
+  def andFL(lst:List[Boolean]): Boolean = foldLeft(lst, true)(_&&_)
+
+  //Ejercicio 22
+  //def filterFL[A](lst:List[A])(p:A=>Boolean):List[A] = foldLeft(lst,Nil:List[A])((lst, e) => if (p(e)) addEnd(lst, e) else lst)
+
+  //Ejercicio 23
+  //def unZipFL[A,B](lst:List[(A,B)]): (List[A], List[B]) = foldLeft(lst, (List[A], List[B]))((lst, elem) => (addEnd(lst, elem._1), addEnd(lst, elem._2)))
+
+
+  def takeWhileL[A](lst:List[A])(p:A=> Boolean):List[A] = {
+    def f(b:(Boolean, List[A]), a:A):(Boolean, List[A]) = b match {
+      case (true, lst) => if (p(a)) (true, addEnd(a, lst))
+                          else (false,lst)
+      case (false, lst) => b
+    }
+    foldLeft(lst, (true, Nil:List[A]))(f)._2
+  }
+
+  //dropWhile con el right
+
+  def map[A,B](lst:List[A])(f:A=>B):List[B] = foldRight(lst,Nil:List[B])((x, y) => Const(f(x), y)) //intentar hacer con foldLeft
+
+  def lstInt2Str(lst:List[Int]):List[String] = lst match {
+    case Nil => Nil
+    case Const(h, t) => Const(h.toString, lstInt2Str(t))
+  }
+
+  def mapGen[A,B](lst:List[A])(f:A=>B): List[B] = lst match {
+    case Nil => Nil
+    case Const(h, t) => Const(f(h), mapGen(t)(f))
+  }
+
+  //aplicando ahora mapGen
+
+  def sumarUnoMap(lst:List[Int]): List[Int] = mapGen(lst)(_+1)
+  def int2StringMap(lst:List[Int]): List[String] = mapGen(lst)(_.toString) //_.toString -> se lo aplica al elemento, en este caso sería h
+
   //Respuesta ejercicio 1: x + y -> 9
   /*val x = List(4,5,6,7,8) match {
       case Const(x, Const(5, Const(7, _))) => x

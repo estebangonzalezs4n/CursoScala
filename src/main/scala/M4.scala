@@ -88,10 +88,18 @@ class Sumador(monto:Int){
   }
 }
 //Ejercicio 11
+/**
+ * @param nombre nombre de la persona
+ * @param apellido apellido de la persona
+ */
 class Persona(val nombre:String, val apellido:String) {
   def nombreC = s"$nombre $apellido"
 }
 
+/**
+ * Objeto de compañía de la clase persona con el metodo apply
+ *
+ */
 object Persona{
   def apply(nombre:String): Persona ={
     val partes = nombre.split(" ")
@@ -111,8 +119,8 @@ object Direcetor {
     new Direcetor(nombre,apellido,nacimiento)
   }
   def esMayor(director1:Direcetor, direcetor2: Direcetor):Direcetor = {
-    if (director1.nacimiento > direcetor2.nacimiento) director1
-    else  direcetor2
+    if (director1.nacimiento > direcetor2.nacimiento) direcetor2
+    else  director1
   }
 }
 

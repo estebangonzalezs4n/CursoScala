@@ -124,4 +124,20 @@ class MainSpec extends AnyFlatSpec with Matchers {
     List.concat(List(List(1,2,3),List(4,5,6))) shouldBe List(1,2,3,4,5,6)
   }
 
+  "El and con foldRight de (true,true,false)" should "es false" in {
+    val lst = List(true,true,false)
+
+    List.andFR(lst) shouldBe false
+  }
+
+  "El sumarUno de List(1,2,3,4,5)" should "es List(2,3,4,5,6)" in {
+    val lst = List(1,2,3,4,5)
+
+    List.sumarUno(lst)
+  }
+  "La longitud de una lista con 1,2,3,4 usando foldLeft" should  "4" in {
+    val lst3 = List(1,2,3,4)
+
+    List.lengthFL(lst3) shouldEqual 4
+  }
 }

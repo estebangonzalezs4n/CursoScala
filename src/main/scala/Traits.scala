@@ -1,5 +1,5 @@
 //Ejercicio 1
-trait Felino {
+/*trait Felino {
   val sonido:String
   val color:String
 }
@@ -16,14 +16,14 @@ class Gato(val sonido:String, val color:String, val comida:String) extends Felin
 }
 //Ejercicio 2
 trait Forma{
-  abstract def getTamano:Double
-  abstract def getPerimetro:Double
-  abstract def getArea:Double
+   def getTamano:Double
+   def getPerimetro:Double
+   def getArea:Double
 }
 
 class Circulo(val radio:Double) extends Forma {
   override def getTamano: Double = {
-    radio * 2
+    0
   }
 
   override def getPerimetro: Double = {
@@ -37,7 +37,7 @@ class Circulo(val radio:Double) extends Forma {
 
 class Rectangulo(val base:Double, val altura:Double) extends Forma {
   override def getTamano: Double = {
-    base
+    4
   }
 
   override def getPerimetro: Double = {
@@ -51,7 +51,7 @@ class Rectangulo(val base:Double, val altura:Double) extends Forma {
 
 class Cuadrado(val lado:Double) extends Forma {
   override def getTamano: Double = {
-    lado
+    4
   }
 
   override def getPerimetro: Double = {
@@ -91,10 +91,12 @@ sealed trait Forma2 {
 }
 
 object Draw {
-  def apply(): Draw = new Draw()
+  def apply(forma2: Forma2): Draw = {
+
+  }
 }
 
 //Ejercicio 5
 class Color(R:Int, G:Int, B:Int){
 
-}
+}*/
