@@ -1,3 +1,5 @@
+package co.s4n.m4
+
 //Ejercicio 1
 object comp {
   def cuadrado(x:Float):Float = {
@@ -32,7 +34,7 @@ object prueba {
     x + "c"
   }
 }
-//prueba.x + prueba.y + prueba.z -> res4: String = 41c
+//co.s4n.m4.prueba.x + co.s4n.m4.prueba.y + co.s4n.m4.prueba.z -> res4: String = 41c
 
 class Gato(
             val Nombre:String,
@@ -41,14 +43,14 @@ class Gato(
 
 }
 
-/*scala> val gatoIO = new Gato("IO", "Fawn", "Churrus")
-val gatoIO: Gato = Gato@5623354e
+/*scala> val gatoIO = new co.s4n.m4.Gato("IO", "Fawn", "Churrus")
+val gatoIO: co.s4n.m4.Gato = co.s4n.m4.Gato@5623354e
 
-scala> val gatoMake = new Gato("Make", "Red", "Leche")
-val gatoMake: Gato = Gato@2a673ee8
+scala> val gatoMake = new co.s4n.m4.Gato("Make", "Red", "Leche")
+val gatoMake: co.s4n.m4.Gato = co.s4n.m4.Gato@2a673ee8
 
-scala> val gatoDocker = new Gato("Docker", "Blue", "Cuido")
-val gatoDocker: Gato = Gato@11275783
+scala> val gatoDocker = new co.s4n.m4.Gato("Docker", "Blue", "Cuido")
+val gatoDocker: co.s4n.m4.Gato = co.s4n.m4.Gato@11275783
 */
 
 object ventaDeChurrus {

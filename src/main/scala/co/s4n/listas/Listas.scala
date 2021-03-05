@@ -140,8 +140,44 @@ object Listas {
   }
   //17
   def split[A](lst:List[A], index:Int):(List[A], List[A]) = {
-    def splitAux(lst:List[A], index:Int, res1:List[A], res2:List[A]) = lst match {
-      case
+    @tailrec
+    def splitAux(lst:List[A], index:Int, res1:List[A]):(List[A], List[A]) = (index, lst) match {
+      case (_, Nil) => (Nil, Nil)
+      case (0, head :: tail) => (res1, head :: tail)
+      case (n,head :: tail) => splitAux(tail, index-1, res1:+head)
+
+    }
+    splitAux(lst, index, Nil)
+  }
+  //18
+  def slice[A](lst:List[A], limiteInf:Int, limiteSup:Int):List[A] = {
+    @tailrec
+    def sliceAux[A](lst:List[A], limiteInf:Int, limiteSup:Int, aux:List[A], cont:Int):List[A] = (cont, lst) match {
+      case (_, Nil) => aux
+      case (n, head :: tail) if (n>=limiteInf && n<=limiteSup) => sliceAux(tail, limiteInf, limiteSup, aux:+head, cont + 1 )
+      case (n, head :: tail ) => sliceAux(tail, limiteInf, limiteSup, aux, cont + 1 )
+    }
+    sliceAux(lst,limiteInf,limiteSup,Nil,1)
+  }
+
+  //19 TODO
+
+  //20
+  def removeAt[A](lst:List[A], index:Int):List[A]= (index, lst) match {
+    case (_, Nil) => Nil
+    case (1, head :: tail) => tail
+    case (n, head :: tail) => head :: removeAt(tail, index - 1)
+  }
+  //21
+  def insertAt[A](lst:List[A], index:Int, value:A):List[A] = (index, lst) match {
+    case (_, Nil) => List(value)
+    case (1, head :: tail) => List(value):::tail
+    case (n, head:: tail) => head :: insertAt(lst, index - 1, value)
+  }
+
+  def range(limiteInf:Int, limiteSup:Int):List[Int] = {
+    def rangeAux(limteInf:Int, limiteSup:Int, cont:Int):List[Int] = cont match {
+      //TODO
     }
   }
 }

@@ -55,4 +55,33 @@ class ListasSpec extends AnyFlatSpec with Matchers {
 
     Listas.dropEveryN(l,n) shouldBe List(1,2,4,5,7,8)
   }
+  "El split en index 3 de  de List(1,2,3,4,5,6,7,8,9)" should "(List(1,2,3),List(4,5,6,7,8,9))" in {
+    val l = List(1,2,3,4,5,6,7,8,9)
+    val n = 3
+
+    Listas.split(l,n) shouldBe (List(1,2,3),List(4,5,6,7,8,9))
+  }
+
+  "El slice de 3 y 6 de List(1,2,3,4,5,6,7,8,9)" should "List(3,4,5,6)" in {
+    val l = List(1,2,3,4,5,6,7,8,9)
+    val n = 3
+    val n2 = 6
+
+    Listas.slice(l, n, n2) shouldBe List(3,4,5,6)
+  }
+
+  "El removeAt en 3 de List(1,2,3,4,5,6,7,8,9)" should "List(1,2,4,5,6,7,8,9)" in {
+    val l = List(1,2,3,4,5,6,7,8,9)
+    val n = 4
+
+    Listas.removeAt(l,n) shouldBe List(1,2,3,5,6,7,8,9)
+  }
+
+  "El insertAt en 2 con 9 en List(1,2,3,4,5)" should "List(1,9,2,3,4,5)" in {
+    val l = List(1,2,3,4,5)
+    val n = 2
+    val value = 9
+
+    Listas.insertAt(l,n,value) shouldBe List(1,9,2,3,4,5)
+  }
 }

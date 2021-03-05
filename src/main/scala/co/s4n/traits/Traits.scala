@@ -1,5 +1,7 @@
+package co.s4n.traits
+
 //Ejercicio 1
-/*trait Felino {
+trait Felino {
   val sonido:String
   val color:String
 }
@@ -87,16 +89,30 @@ class Rectangulo2(val longitud: Double, val altura: Double) extends Rectangular{
 //Ejercicio 4
 
 sealed trait Forma2 {
-
+  def getTamano:Double
+  def getPerimetro:Double
+  def getArea:Double
 }
 
-object Draw {
-  def apply(forma2: Forma2): Draw = {
-
-  }
-}
+//object Draw {
+//  def apply(forma2: Forma2): Draw = {
+//
+//  }
+//}
 
 //Ejercicio 5
-class Color(R:Int, G:Int, B:Int){
+trait Color{
+  val R:Int
+  val G:Int
+  val B:Int
+}
 
-}*/
+class Rojo(val R: Int = 255, val G: Int = 0, val B: Int = 0) extends Color {
+
+}
+class Amarillo(val R: Int = 255, val G: Int = 233, val B: Int = 0) extends Color{
+
+}
+class Rosa(val R: Int = 255, val G: Int = 191, val B: Int = 190) extends Color{
+
+}
