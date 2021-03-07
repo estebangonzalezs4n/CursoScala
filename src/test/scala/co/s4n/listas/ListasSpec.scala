@@ -84,4 +84,31 @@ class ListasSpec extends AnyFlatSpec with Matchers {
 
     Listas.insertAt(l,n,value) shouldBe List(1,9,2,3,4,5)
   }
+
+  "El range de 4 9" should "Es List(4,5,6,7,8,9)" in {
+    val limiteInf = 4
+    val limiteSup = 9
+
+    Listas.range(limiteInf,limiteSup) shouldBe List(4,5,6,7,8,9)
+  }
+
+  "El rotate left de 3 en List(1,2,3,4,5,6)" should "List(4,5,6,1,2,3)" in {
+    val l = List(1,2,3,4,5,6)
+    val n = -2
+
+    Listas.rotateLeft(l,n) shouldBe List(4,5,6,1,2,3)
+  }
+
+  "El encode de List(1,1,1,2,2,3,4,4)" should "List((3,1), (2,2), (1,3), (2,4))" in {
+    val l = List(1,1,1,2,2,3,4,4)
+
+    Listas.encode(l) shouldBe List((3,1), (2,2), (1,3), (2,4))
+  }
+
+  "El decode de List((4,1), (1,2), (2,3))" should "List(1,1,1,1,2,3,3)" in {
+    val l = List((4,1), (1,2), (2,3))
+
+    Listas.decode(l) shouldBe List(1,1,1,1,2,3,3)
+  }
+
 }

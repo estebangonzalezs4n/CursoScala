@@ -31,13 +31,13 @@ object Listas {
     predAtPosAux(list, preds, Nil)
 
   }
-
+  //1
   @tailrec
   def myLast[A](lst:List[A]):A = lst match{
     case head:: Nil => head
     case _ :: tail => myLast(tail)
   }
-
+  //2
   @tailrec
   def myButLast[A](lst:List[A]):A = lst match {
     case x :: y :: Nil => x
@@ -50,20 +50,20 @@ object Listas {
     case x :: y :: Nil => List(x, y)
     case head :: tail => myButLasts(tail)
   }
-
+  //3
   @tailrec
   def elementAt[A](lst:List[A], pos:Int ):A = (pos, lst) match {
     case (1, head :: tail) => head
     case (n, head :: tail) => elementAt(tail, n -1)
   }
-
+  //4
   def myLength[A](lst:List[A]):Int = lst match {
     case _::Nil => 1
     case head :: tail => 1 + myLength(tail)
   }
   def myLengthFL[A](lst:List[A]):Int = lst.foldRight(0)((_,y) => 1 + y)
   def myLengthFR[A](lst:List[A]):Int = lst.foldLeft(0)((x,_) =>1 +x)
-
+  //5
   def myReverse[A](lst:List[A]):List[A] = {
     @tailrec
     def myReverseAux[A](lst:List[A], acum:List[A]):List[A] = lst match {
@@ -85,8 +85,7 @@ object Listas {
     }
     myInitP(list,Nil:List[A])
   }
-
-
+  //6
   @tailrec
   def isPalindrome[A](lst:List[A]):Boolean = lst match {
     case head :: Nil => true
@@ -94,7 +93,7 @@ object Listas {
     case x::xs => x == Listas.myLast(xs) && isPalindrome(Listas.myInit(xs))
 
   }
-
+  //8
   def compress[A](lst:List[A]):List[A] = lst match {
     case Nil => Nil
     case head :: List() => List(head)
@@ -103,7 +102,7 @@ object Listas {
 //    case head :: tail => if (head == myHead(tail)) compress(tail) else compress(tail.tail)
 //    case head :: Nil => List(head)
   }
-
+  //9
   def pack[A](lst:List[A]):List[List[A]] = {
     @tailrec
     def packAux[A](lst:List[A], aux1:List[List[A]], aux2:List[A]):List[List[A]] = (lst, aux2) match {
@@ -114,6 +113,44 @@ object Listas {
     }
     packAux(lst, Nil, Nil)
   }
+  //10
+  def encode[A](lst:List[A]):List[(Int, A)] = {
+    @tailrec
+    def encodeAux(lst:List[A],aux:List[(Int, A)], cont:Int):List[(Int, A)] = lst match {
+      case Nil => aux
+      case head :: Nil => aux :+ (cont, head)
+      case head :: tail if (head == myHead(tail)) => encodeAux(tail, aux , cont + 1)
+      case head :: tail => encodeAux(tail, aux :+ (cont, head), 1)
+
+    }
+    encodeAux(lst, Nil, 1)
+  }
+  //11 TODO
+//  def encodeM[A](lst:List[A]):List[(Int, A)] = {
+//    @tailrec
+//    def encodeMAux(lst:List[A],aux:List[(Int, A)], cont:Int):List[(Int, A)] = (cont, lst) match {
+//      case (_,Nil) => aux
+//      case (n, head :: Nil) => aux :+ (cont, head)
+//      case (n, head :: tail) if (head == myHead(tail)) => encodeMAux(tail, aux , cont + 1)
+//      case (n, head :: tail) if (n != 1)=> encodeMAux(tail, aux :+ (cont, head), 1)
+//      case (n, head :: tail) if (n == 1)=> encodeMAux(tail, aux :+ head, 1)
+//
+//    }
+//    encodeMAux(lst, Nil, 1)
+//  }
+
+  //12
+  def decode[A](lst:List[(Int, A)]): List[A] = {
+    @tailrec
+    def decodeAux[A](lst:List[(Int, A)], aux:List[A], cont:Int):List[A] = (cont, lst) match {
+      case (_, Nil) => aux
+      case (n, head :: tail) if(cont <= head._1) => decodeAux(lst, aux :+ head._2 , cont + 1)
+      case (n, head :: tail) => decodeAux(tail, aux, 1)
+      case (_, head :: Nil) => aux
+    }
+    decodeAux(lst,Nil, 1)
+  }
+  //13 TODO
 
   //14
   def duplicate[A](lst:List[A]):List[A] = lst.foldLeft(Nil:List[A])((tail, head) => tail :+head:+head)
@@ -160,8 +197,16 @@ object Listas {
     sliceAux(lst,limiteInf,limiteSup,Nil,1)
   }
 
-  //19 TODO
-
+  //19 TODO hacer que funcione cuando se ingresan numeros negativos
+  def rotateLeft[A](lst:List[A], desplazamiento:Int):List[A] = {
+    @tailrec
+    def rotateLeftAux[A](lst:List[A], desplazamiento:Int, aux:List[A], cont:Int):List[A] = (cont, lst) match {
+      case (n, Nil) => aux
+      case (n, head :: tail) if (n <= desplazamiento) => rotateLeftAux(tail,desplazamiento,aux::: List(head), cont + 1)
+      case (n, head :: tail) if (n > desplazamiento) => lst ::: aux
+    }
+    rotateLeftAux(lst, desplazamiento, Nil, 1)
+  }
   //20
   def removeAt[A](lst:List[A], index:Int):List[A]= (index, lst) match {
     case (_, Nil) => Nil
@@ -174,11 +219,10 @@ object Listas {
     case (1, head :: tail) => List(value):::tail
     case (n, head:: tail) => head :: insertAt(lst, index - 1, value)
   }
-
-  def range(limiteInf:Int, limiteSup:Int):List[Int] = {
-    def rangeAux(limteInf:Int, limiteSup:Int, cont:Int):List[Int] = cont match {
-      //TODO
-    }
+  //22
+  def range(limiteInf:Int, limiteSup:Int):List[Int] = limiteInf match {
+    case n if (n <= limiteSup) => List(n) ::: range(limiteInf + 1, limiteSup)
+    case n => Nil
   }
 }
 
