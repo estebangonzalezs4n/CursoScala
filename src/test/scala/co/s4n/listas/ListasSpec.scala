@@ -49,6 +49,18 @@ class ListasSpec extends AnyFlatSpec with Matchers {
     Listas.replicate(l, n) shouldBe List(1,1,1,2,2,2,3,3,3)
   }
 
+  "El duplicate de List(1,2,3)" should "es List(1,1,2,2,3,3)" in {
+    val l = List(1,2,3)
+
+    Listas.duplicate(l) shouldBe List(1,1,2,2,3,3)
+  }
+
+  "El pack de de List(1,1,2,3,3,4,4,4,4,4)" should "List(List(1,1),List(2),List(3,3),List(4,4,4,4,4))" in {
+    val l = List(1,1,2,3,3,4,4,4,4,4)
+
+    Listas.pack(l) shouldBe List(List(1,1),List(2),List(3,3),List(4,4,4,4,4))
+  }
+
   "El drop every 3 de List(1,2,3,4,5,6,7,8,9)" should "List(1,2,4,5,7,8)" in {
     val l = List(1,2,3,4,5,6,7,8,9)
     val n = 3
@@ -103,6 +115,12 @@ class ListasSpec extends AnyFlatSpec with Matchers {
     val l = List(1,1,1,2,2,3,4,4)
 
     Listas.encode(l) shouldBe List((3,1), (2,2), (1,3), (2,4))
+  }
+
+  "El encodeM de List(1,1,1,2,2,3,4,4)" should "List((3,1), (2,2), (1,3), (2,4))" in {
+    val l = List(1,1,1,2,2,3,4,4)
+
+    Listas.encodeM(l) shouldBe List((3,1), (2,2), 3, (2,4))
   }
 
   "El decode de List((4,1), (1,2), (2,3))" should "List(1,1,1,1,2,3,3)" in {

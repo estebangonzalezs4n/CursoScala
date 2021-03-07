@@ -66,7 +66,7 @@ object Listas {
   //5
   def myReverse[A](lst:List[A]):List[A] = {
     @tailrec
-    def myReverseAux[A](lst:List[A], acum:List[A]):List[A] = lst match {
+    def myReverseAux(lst:List[A], acum:List[A]):List[A] = lst match {
       case Nil => acum
       case head :: tail =>myReverseAux(tail, head::acum)
     }
@@ -79,7 +79,7 @@ object Listas {
 
   def myInit[A](list:List[A]):List[A] =  {
     @tailrec
-    def myInitP[A](list:List[A],aux:List[A]):List[A] = list match {
+    def myInitP(list:List[A],aux:List[A]):List[A] = list match {
       case head :: Nil => aux
       case head :: tail => myInitP(tail,aux ::: List(head))
     }
@@ -105,7 +105,7 @@ object Listas {
   //9
   def pack[A](lst:List[A]):List[List[A]] = {
     @tailrec
-    def packAux[A](lst:List[A], aux1:List[List[A]], aux2:List[A]):List[List[A]] = (lst, aux2) match {
+    def packAux(lst:List[A], aux1:List[List[A]], aux2:List[A]):List[List[A]] = (lst, aux2) match {
       case (Nil, Nil) => aux1
       case (Nil, tail) => aux1 :+ tail
       case (head :: tail, Nil) => packAux(tail, aux1, aux2:+head)
@@ -125,24 +125,24 @@ object Listas {
     }
     encodeAux(lst, Nil, 1)
   }
-  //11 TODO Quizá usando el Either
-//  def encodeM[A](lst:List[A]):List[(Int, A)] = {
-//    @tailrec
-//    def encodeMAux(lst:List[A],aux:List[(Int, A)], cont:Int):List[(Int, A)] = (cont, lst) match {
-//      case (_,Nil) => aux
-//      case (n, head :: Nil) => aux :+ (cont, head)
-//      case (n, head :: tail) if (head == myHead(tail)) => encodeMAux(tail, aux , cont + 1)
-//      case (n, head :: tail) if (n != 1)=> encodeMAux(tail, aux :+ (cont, head), 1)
-//      case (n, head :: tail) if (n == 1)=> encodeMAux(tail, aux :+ head, 1)
-//
-//    }
-//    encodeMAux(lst, Nil, 1)
-//  }
+  //11
+  def encodeM[A](lst:List[A]):List[Any] = {
+    @tailrec
+    def encodeMAux(lst:List[A],aux:List[Any], cont:Int):List[Any] = (cont, lst) match {
+      case (_,Nil) => aux
+      case (n, head :: Nil) => aux :+ (cont, head)
+      case (n, head :: tail) if (head == myHead(tail)) => encodeMAux(tail, aux , cont + 1)
+      case (n, head :: tail) if (n != 1)=> encodeMAux(tail, aux :+ (cont, head), 1)
+      case (n, head :: tail) if (n == 1)=> encodeMAux(tail, aux :+ head, 1)
+
+    }
+    encodeMAux(lst, Nil, 1)
+  }
 
   //12
   def decode[A](lst:List[(Int, A)]): List[A] = {
     @tailrec
-    def decodeAux[A](lst:List[(Int, A)], aux:List[A], cont:Int):List[A] = (cont, lst) match {
+    def decodeAux(lst:List[(Int, A)], aux:List[A], cont:Int):List[A] = (cont, lst) match {
       case (_, Nil) => aux
       case (n, head :: tail) if(cont <= head._1) => decodeAux(lst, aux :+ head._2 , cont + 1)
       case (n, head :: tail) => decodeAux(tail, aux, 1)
@@ -157,7 +157,7 @@ object Listas {
   //15
   def replicate[A](lst:List[A], n:Int):List[A] = {
     @tailrec
-    def replicateAux[A](lst:List[A], num:Int, aux:List[A], count:Int):List[A] = (count, lst) match {
+    def replicateAux(lst:List[A], num:Int, aux:List[A], count:Int):List[A] = (count, lst) match {
       case (_, Nil) => aux
       case (0, head :: tail) => replicateAux(tail, num, aux, num)
       case (n, head :: tail) => replicateAux(lst,num, aux:+head,count-1)
@@ -167,7 +167,7 @@ object Listas {
   //16
   def dropEveryN[A](lst:List[A], index:Int):List[A] = {
     @tailrec
-    def dropEveryNAux[A](lst:List[A], index:Int, aux:List[A], cont:Int):List[A] = (cont, lst) match {
+    def dropEveryNAux(lst:List[A], index:Int, aux:List[A], cont:Int):List[A] = (cont, lst) match {
       case (_, Nil) => aux
       case (1, head :: tail) => dropEveryNAux(tail, index, aux, index)
       case (n, head :: tail) => dropEveryNAux(tail, index, aux:+head, cont - 1)
@@ -189,7 +189,7 @@ object Listas {
   //18
   def slice[A](lst:List[A], limiteInf:Int, limiteSup:Int):List[A] = {
     @tailrec
-    def sliceAux[A](lst:List[A], limiteInf:Int, limiteSup:Int, aux:List[A], cont:Int):List[A] = (cont, lst) match {
+    def sliceAux(lst:List[A], limiteInf:Int, limiteSup:Int, aux:List[A], cont:Int):List[A] = (cont, lst) match {
       case (_, Nil) => aux
       case (n, head :: tail) if (n>=limiteInf && n<=limiteSup) => sliceAux(tail, limiteInf, limiteSup, aux:+head, cont + 1 )
       case (n, head :: tail ) => sliceAux(tail, limiteInf, limiteSup, aux, cont + 1 )
@@ -200,7 +200,7 @@ object Listas {
   //19
   def rotateLeft[A](lst:List[A], desplazamiento:Int):List[A] = {
   @tailrec
-    def rotateLeftAux[A](lst:List[A], desplazamiento:Int, cont:Int):List[A] = (cont, lst) match {
+    def rotateLeftAux(lst:List[A], desplazamiento:Int, cont:Int):List[A] = (cont, lst) match {
       case (_, Nil) => Nil
       case (n, head :: tail) if(n <= desplazamiento) => rotateLeftAux(myLast(lst):: myInit(lst), desplazamiento, cont + 1)
       case (n, head :: tail) => lst
