@@ -125,7 +125,7 @@ object Listas {
     }
     encodeAux(lst, Nil, 1)
   }
-  //11 TODO
+  //11 TODO Quizá usando el Either
 //  def encodeM[A](lst:List[A]):List[(Int, A)] = {
 //    @tailrec
 //    def encodeMAux(lst:List[A],aux:List[(Int, A)], cont:Int):List[(Int, A)] = (cont, lst) match {
@@ -197,15 +197,15 @@ object Listas {
     sliceAux(lst,limiteInf,limiteSup,Nil,1)
   }
 
-  //19 TODO hacer que funcione cuando se ingresan numeros negativos
+  //19
   def rotateLeft[A](lst:List[A], desplazamiento:Int):List[A] = {
-    @tailrec
-    def rotateLeftAux[A](lst:List[A], desplazamiento:Int, aux:List[A], cont:Int):List[A] = (cont, lst) match {
-      case (n, Nil) => aux
-      case (n, head :: tail) if (n <= desplazamiento) => rotateLeftAux(tail,desplazamiento,aux::: List(head), cont + 1)
-      case (n, head :: tail) if (n > desplazamiento) => lst ::: aux
+  @tailrec
+    def rotateLeftAux[A](lst:List[A], desplazamiento:Int, cont:Int):List[A] = (cont, lst) match {
+      case (_, Nil) => Nil
+      case (n, head :: tail) if(n <= desplazamiento) => rotateLeftAux(myLast(lst):: myInit(lst), desplazamiento, cont + 1)
+      case (n, head :: tail) => lst
     }
-    rotateLeftAux(lst, desplazamiento, Nil, 1)
+    rotateLeftAux(lst, myLength(lst) - desplazamiento , 1)
   }
   //20
   def removeAt[A](lst:List[A], index:Int):List[A]= (index, lst) match {

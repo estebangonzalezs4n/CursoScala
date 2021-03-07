@@ -92,11 +92,11 @@ class ListasSpec extends AnyFlatSpec with Matchers {
     Listas.range(limiteInf,limiteSup) shouldBe List(4,5,6,7,8,9)
   }
 
-  "El rotate left de 3 en List(1,2,3,4,5,6)" should "List(4,5,6,1,2,3)" in {
-    val l = List(1,2,3,4,5,6)
-    val n = -2
+  "El rotate left de 3 en List(A,B,C,D,E,F,G,H)" should "List(D,E,F,G,H,A,B,C)" in {
+    val l = List("A","B","C","D","E","F","G","H")
+    val n = 3
 
-    Listas.rotateLeft(l,n) shouldBe List(4,5,6,1,2,3)
+    Listas.rotateLeft(l,n) shouldBe List("D", "E", "F", "G", "H", "A", "B", "C")
   }
 
   "El encode de List(1,1,1,2,2,3,4,4)" should "List((3,1), (2,2), (1,3), (2,4))" in {
