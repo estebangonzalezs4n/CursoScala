@@ -76,9 +76,16 @@ object Comprension {
       xi <- lst
     }yield((xs:List[A]) => xi :: xs)).foldRight(Nil:List[A])((f,e) => f(e))
 
+  /**
+   *
+   * @param lst Lista de entrada para ser invertida
+   * @tparam A  Tipo de dato
+   * @return  Lista invertida de tipo A
+   */
   def reverse[A](lst:List[A]):List[A] = (
     for {
       xi <- lst
-    }yield(())
-  )
+    }yield((xs:List[A]) =>
+      xs :+ xi
+      )).foldRight(Nil:List[A])((f,e) => f(e))
 }
